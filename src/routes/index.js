@@ -4,17 +4,22 @@ const Task = require('../model/task');
 const User = require('../model/user');
 
 router.get('/', async (req,res,next) => {
+  
   const tasks = await Task.find();
   const users = await User.find();
+
+//var cursor = collection.find(query);
+
   res.render('index', {tasks, users});
 });
 
 router.post('/add', async (req, res, next) => {
   const task = new Task(req.body);
+  console.log(task)
   await task.save();
   //console.log(task._id)
   const user = new User(req.body);
-  console.log(user,task._id)
+  //console.log(user,task._id)
   await user.save();
   res.redirect('/');
 });
