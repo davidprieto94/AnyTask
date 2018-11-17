@@ -3,23 +3,46 @@ const router = express.Router();
 const Task = require('../model/task');
 const User = require('../model/user');
 
-router.get('/', async (req,res,next) => {
-  
-  const tasks = await Task.find();
+router.get('/', (req, res, next) => {
+  res.render('index');
+});
+
+router.get('/add-tasks', (req, res, next) => {
+  res.render('tasks/add-tasks');
+});
+
+const moment = require('moment');
+exports.index = function(req, res) {
+    res.render('tasks/tasks', { moment: moment });
+}
+
+router.get('/tasks/:page', async (req, res, next) => {
+  var moment = require('moment');
+  let perPage = 9;
+  let page = req.params.page || 1;
   const users = await User.find();
-
-//var cursor = collection.find(query);
-
-  res.render('index', {tasks, users});
+  await Task
+    .find({}) // finding all documents
+    .skip((perPage * page) - perPage) // in the first page the value of the skip is 0
+    .limit(perPage) // output just 9 items
+    .exec((err, tasks) => {
+      Task.count((err, count) => { // count to calculate the number of pages
+        if (err) return next(err);
+        res.render('tasks/tasks', {
+          tasks,
+          users,
+          current: page,
+          pages: Math.ceil(count / perPage),
+          moment : moment
+        });
+      });
+    });
 });
 
 router.post('/add', async (req, res, next) => {
   const task = new Task(req.body);
-  console.log(task)
   await task.save();
-  //console.log(task._id)
   const user = new User(req.body);
-  //console.log(user,task._id)
   await user.save();
   res.redirect('/');
 });
@@ -29,7 +52,7 @@ router.get('/turn/:id', async (req, res,next) => {
   const task = await Task.findById(id);
   task.status = !task.status;
   await task.save();
-  res.redirect('/');
+  res.redirect('back');
 });
 
 router.get('/edit/:id', async (req, res) => {
@@ -51,7 +74,7 @@ router.get('/delete/:id', async (req, res) => {
   const task = await Task.findById(req.params.id);
   await Task.remove({_id: id});
   await User.remove({title: task.title});
-  res.redirect('/');
+  res.redirect(req.get('referer'));
 });
 
 module.exports = router;

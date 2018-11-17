@@ -1,0 +1,117 @@
+<% include ../partials/_header %>
+
+<div class="container">
+        <div>
+          <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Nombre</th>
+                    <th>Celular</th>
+                    <th>Email</th>
+                    <th>Tarea</th>
+                    <th>Descripción Tarea</th>
+                    <th>Plazo Tarea</th>
+                    <th>Prioridad</th>
+                    <th>Operaciones</th>
+                </tr>
+            </thead>
+    
+            <tbody>
+              <% for(var i=0; i < tasks.length; i++) { %>
+                  <tr>
+                    <td><%= i + 1%></td>
+                    <td><strong><%= users[i].name %></strong></td>
+                    <td><strong><%= users[i].phone %></strong></td>
+                    <td><strong><%= users[i].email %></strong></td>
+                    <td><strong><%= tasks[i].title %></strong></td>
+                    <td><%= tasks[i].description %></td>
+                    <td><%= moment(tasks[i].date).format('DD-MM-YYYY'); %> </td>
+                    <td><% if (tasks[i].prioridad == 3){ %> Alta 
+                        <% } else if (tasks[i].prioridad == 2){ %> Medio
+                        <% } else { %> Baja
+                        <% } %>
+                     </td>
+                    <td>
+                      <a
+                        class="<%= tasks[i].status ? 'btn btn-success' : 'btn btn-dark'%>"
+                        href="/turn/<%= tasks[i]._id %>">Completada</a>
+                      <a href="/delete/<%= tasks[i]._id %>"
+                        class="btn btn-danger">
+                        Eliminar</a>
+                      <a href="/edit/<%= tasks[i]._id %>" 
+                        class="btn btn-info">
+                        Editar</a>
+                    </td>
+                  </tr>
+                <% } %> 
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row">
+                <!-- pagination -->
+                <% if(pages > 0) { %> <!-- show pagination if there is pages -->
+                  <nav class="mx-auto">
+                    <ul class="pagination">
+                      <!-- FIRST ITEM -->
+                      <% if(current == 1) { %>
+                        <li class="page-item disabled">
+                          <a class="page-link" href="#">Primero</a>
+                        </li>
+                      <% } else { %>
+                        <li class="page-item">
+                          <a class="page-link" href="/tasks/1">Primero</a>
+                        </li>
+                      <% } %>
+            
+                      <!-- ITEMS  -->
+                      <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                      <% if(i !== 1) { %>
+                        <li class="page-item disabled">
+                          <a class="page-link" href="#">...</a>
+                        </li>
+                      <% } %>
+                      <% for(; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if(i == current) { %>
+                          <li class="page-item active">
+                            <a class="page-link" href="<%= i %>">
+                              <%= i %>
+                            </a>
+                          </li>
+                        <% } else { %>
+                          <li class="page-item">
+                            <a class="page-link" href="/tasks/<%= i %>">
+                              <%= i %>
+                            </a>
+                          </li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                           <li class="page-item disabled">
+                             <a class="page-link" href="#">...</a>
+                           </li>
+                        <% } %>
+                      <% } %>
+            
+                      <!-- LAST ITEM -->
+                      <% if(current == pages) { %>
+                        <li class="page-item disabled">
+                          <a class="page-link" href="#">
+                            Último
+                          </a>
+                        </li>
+                      <% } else { %>
+                        <li class="page-item">
+                          <a class="page-link" href="/tasks/<%= pages %>">
+                            Último
+                          </a>
+                        </li>
+                      <% } %>
+                    </ul>
+                  </nav>
+                <% } %>
+              </div>
+
+</div>
+
+<% include ../partials/_footer %>
