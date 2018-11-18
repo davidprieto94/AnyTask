@@ -4,33 +4,31 @@
 <div class="row">
         <!--FORM-->
         <div class="col-md-6 offset-md-3"  >
-          <div class="card  mx-auto">
+          <div class="card mx-auto">
             <div class="card-body" >
               <form action="/add" method="post">
                 <h3 align="center">Nueva Tarea</h3>
                 <div class="form-group">
-                  <input class="form-control" type="text" name="name" placeholder="Nombre">
+                  <input class="form-control" type="text" name="name" placeholder="Nombre" required>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="number" name="phone" placeholder="Celular">
+                  <input class="form-control" type="number" name="phone" placeholder="Celular" required>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="email" name="email" placeholder="Email">
+                  <input class="form-control" type="email" name="email" placeholder="Email" required>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="text" name="title" placeholder="Tarea">
+                  <input class="form-control" type="text" name="title" placeholder="Tarea" required>
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" name="description" cols="80"
-                    placeholder="Descripción Tarea"
-                    ></textarea>
+                  <textarea class="form-control" name="description" cols="80" placeholder="Descripción Tarea"></textarea>
                 </div>
                 <div class="form-group">
-                  <h5>Plazo Tarea </h5>
-                  <input class="form-control" type="date" name="date" placeholder="Plazo Tarea">
+                  <h6>Plazo Tarea </h6>
+                  <input class="form-control" type="date" name="date" placeholder="Plazo Tarea" required>
                 </div>
                 <div class="form-group">
-                    <h5>Prioridad</h5>
+                    <h6>Prioridad</h6>
                         <select class="form-control" type="number" name="prioridad">
                                 <option value="3">Alta</option>
                                 <option value="2">Media</option>

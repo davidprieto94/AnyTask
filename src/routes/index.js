@@ -11,22 +11,44 @@ router.get('/add-tasks', (req, res, next) => {
   res.render('tasks/add-tasks');
 });
 
-const moment = require('moment');
-exports.index = function(req, res) {
-    res.render('tasks/tasks', { moment: moment });
-}
+router.post('/filter', async (req, res, next) => {
+  const task = new Task(req.body);
+  var moment = require('moment');
+  let perPage = 20;
+  let page = req.params.page || 1;
+  const usuario = new User(req.body);
+  const users = await User.find({name : {$regex : usuario.name}});
+  await Task
+    .find({title: {$regex : task.title}})
+    .sort({ prioridad: -1 })
+    .skip((perPage * page) - perPage) 
+    .limit(perPage)
+    .exec((err, tasks) => {
+      Task.count((err, count) => {
+        if (err) return next(err);
+        res.render('tasks/tasks', {
+          tasks,
+          users,
+          current: page,
+          pages: Math.ceil(count / perPage),
+          moment : moment
+        });
+      });
+    });
+});
 
 router.get('/tasks/:page', async (req, res, next) => {
   var moment = require('moment');
-  let perPage = 9;
+  let perPage = 20;
   let page = req.params.page || 1;
   const users = await User.find();
   await Task
-    .find({}) // finding all documents
-    .skip((perPage * page) - perPage) // in the first page the value of the skip is 0
-    .limit(perPage) // output just 9 items
+    .find({})
+    .sort({ prioridad: -1 })
+    .skip((perPage * page) - perPage) 
+    .limit(perPage)
     .exec((err, tasks) => {
-      Task.count((err, count) => { // count to calculate the number of pages
+      Task.count((err, count) => {
         if (err) return next(err);
         res.render('tasks/tasks', {
           tasks,
@@ -52,12 +74,12 @@ router.get('/turn/:id', async (req, res,next) => {
   const task = await Task.findById(id);
   task.status = !task.status;
   await task.save();
-  res.redirect('back');
+  res.redirect(req.get('referer'));
 });
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id/:idu', async (req, res) => {
   const task = await Task.findById(req.params.id);
-  const user = await User.find();
+  const user = await User.findById(req.params.idu);
   res.render('edit', { task, user});
 });
 
@@ -76,5 +98,6 @@ router.get('/delete/:id', async (req, res) => {
   await User.remove({title: task.title});
   res.redirect(req.get('referer'));
 });
+
 
 module.exports = router;

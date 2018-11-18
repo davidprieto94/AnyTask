@@ -2,32 +2,29 @@
 
 <div class="container">
   <div class="row">
-    <!--FORM-->
     <div class="col-md-6 offset-md-3">
       <div class="card">
         <div class="card-body">
           <form action="/edit/<%= task._id %>" method="post">
             <h3 align="center">Editar Tarea</h3>
             <div class="form-group">
-              <input class="form-control" type="text" name="name" placeholder="Nombre" value="<%= user.name %>">
+              <input class="form-control" type="text" name="name" placeholder="Nombre" value="<%= user.name %>" required>
             </div>
             <div class="form-group">
-              <input class="form-control" type="number" name="phone" placeholder="Celular" value="<%= user.phone %>">
+              <input class="form-control" type="number" name="phone" placeholder="Celular" value="<%= user.phone %>" required>
             </div>
             <div class="form-group">
-              <input class="form-control" type="email" name="email" placeholder="Email" value="<%= user.email %>">
+              <input class="form-control" type="email" name="email" placeholder="Email" value="<%= user.email %>" required>
             </div>
             <div class="form-group">
-              <input class="form-control" type="text" name="title" placeholder="Tarea" value="<%= task.title %>">
+              <input class="form-control" type="text" name="title" placeholder="Tarea" value="<%= task.title %>" required>
             </div>
             <div class="form-group">
-              <textarea class="form-control" name="description" cols="80"
-                placeholder="Descripción Tarea"
-                ><%= task.description %></textarea>
+              <textarea class="form-control" name="description" cols="80" placeholder="Descripción Tarea"><%= task.description %></textarea>
             </div>
             <div class="form-group">
-              <h5>Plazo Tarea </h5>
-              <input class="form-control" type="date" name="date" placeholder="Plazo Tarea">
+              <h5>Plazo Tarea</h5>
+              <input class="form-control" type="date" name="date" placeholder="Plazo Tarea" required>
             </div>
             <div class="form-group">
                 <h5>Prioridad</h5>
