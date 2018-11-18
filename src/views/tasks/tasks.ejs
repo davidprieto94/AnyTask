@@ -1,38 +1,40 @@
 <% include ../partials/_header %>
 
-<div class="container">
-        <div>
-          <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>N°</th>
-                    <th>Nombre</th>
-                    <th>Celular</th>
-                    <th>Email</th>
-                    <th>Tarea</th>
-                    <th>Descripción Tarea</th>
-                    <th>Plazo Tarea</th>
-                    <th>Prioridad</th>
-                    <th>Operaciones</th>
+<div class=" ">
+    <h3 align="center"> Tareas Asignadas</h3>
+        <div class="">
+            
+          <table class="table table-bordered table-hover col"style="height: 100px;">
+            <thead class="bg-info" >
+                <tr class="text-white ">
+                    <th class="align-middle ">N°</th>
+                    <th class="align-middle ">Nombre</th>
+                    <th class="align-middle ">Celular</th>
+                    <th class="align-middle ">Email</th>
+                    <th class="align-middle ">Tarea</th>
+                    <th class="align-middle ">Descripción Tarea</th>
+                    <th class="align-middle ">Plazo Tarea</th>
+                    <th class="align-middle ">Prioridad</th>
+                    <th class="align-middle ">Operaciones</th>
                 </tr>
             </thead>
     
             <tbody>
               <% for(var i=0; i < tasks.length; i++) { %>
-                  <tr>
-                    <td><%= i + 1%></td>
-                    <td><strong><%= users[i].name %></strong></td>
-                    <td><strong><%= users[i].phone %></strong></td>
-                    <td><strong><%= users[i].email %></strong></td>
-                    <td><strong><%= tasks[i].title %></strong></td>
-                    <td><%= tasks[i].description %></td>
-                    <td><%= moment(tasks[i].date).format('DD-MM-YYYY'); %> </td>
-                    <td><% if (tasks[i].prioridad == 3){ %> Alta 
+                  <tr class="">
+                    <td class="align-middle "><%= i + 1%></td>
+                    <td class="align-middle "><strong><%= users[i].name %></strong></td>
+                    <td class="align-middle "><strong><%= users[i].phone %></strong></td>
+                    <td class="align-middle "><strong><%= users[i].email %></strong></td>
+                    <td class="align-middle "><strong><%= tasks[i].title %></strong></td>
+                    <td class="align-middle "><%= tasks[i].description %></td>
+                    <td class="align-middle col"><%= moment(tasks[i].date).format('DD-MM-YYYY'); %> </td>
+                    <td class="align-middle "><% if (tasks[i].prioridad == 3){ %> Alta 
                         <% } else if (tasks[i].prioridad == 2){ %> Medio
                         <% } else { %> Baja
                         <% } %>
                      </td>
-                    <td>
+                    <td >
                       <a
                         class="<%= tasks[i].status ? 'btn btn-success' : 'btn btn-dark'%>"
                         href="/turn/<%= tasks[i]._id %>">Completada</a>

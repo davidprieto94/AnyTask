@@ -1,13 +1,13 @@
 <% include ../partials/_header %>
 
-<div class="container">
+<div class="container" >
 <div class="row">
         <!--FORM-->
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
+        <div class="col-md-6 offset-md-3"  >
+          <div class="card  mx-auto">
+            <div class="card-body" >
               <form action="/add" method="post">
-                <h3 align="center">Tarea</h3>
+                <h3 align="center">Nueva Tarea</h3>
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" placeholder="Nombre">
                 </div>
@@ -26,18 +26,18 @@
                     ></textarea>
                 </div>
                 <div class="form-group">
-                  <h6>Plazo Tarea </h6>
+                  <h5>Plazo Tarea </h5>
                   <input class="form-control" type="date" name="date" placeholder="Plazo Tarea">
                 </div>
                 <div class="form-group">
-                    <h6>Prioridad</h6>
+                    <h5>Prioridad</h5>
                         <select class="form-control" type="number" name="prioridad">
                                 <option value="3">Alta</option>
                                 <option value="2">Media</option>
                                 <option value="1">Baja</option>
                               </select>
                 </div>
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-success form-control " type="submit">
                   Agregar
                 </button>
               </form>
