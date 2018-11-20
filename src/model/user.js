@@ -5,8 +5,7 @@ const UserSchema = Schema({
   title: String,
   name: String,
   phone: Number,  
-  email: String,
-  id_task : Object
+  email: String
 });
 
 module.exports = mongoose.model('users', UserSchema);

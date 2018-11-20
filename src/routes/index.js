@@ -13,25 +13,30 @@ router.get('/add-tasks', (req, res, next) => {
 
 router.post('/filter', async (req, res, next) => {
   const task = new Task(req.body);
+  const usuario = new User(req.body);
   var moment = require('moment');
   let perPage = 20;
   let page = req.params.page || 1;
-  const usuario = new User(req.body);
-  const users = await User.find({name : {$regex : usuario.name}});
-  await Task
-    .find({title: {$regex : task.title}})
-    .sort({ prioridad: -1 })
-    .skip((perPage * page) - perPage) 
-    .limit(perPage)
-    .exec((err, tasks) => {
+  Task.find({title: {$regex : task.title}})
+  .sort({ prioridad: -1 })
+  .skip((perPage * page) - perPage)
+  .limit(perPage)
+  .exec((err, tasks) => {
       Task.count((err, count) => {
         if (err) return next(err);
-        res.render('tasks/tasks', {
-          tasks,
-          users,
-          current: page,
-          pages: Math.ceil(count / perPage),
-          moment : moment
+        User.find({name : {$regex : usuario.name}})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec((err, users) => {
+          User.count((err, count) => {
+            res.render('tasks/tasks', {
+                tasks,
+                users,
+                current: page,
+                pages: Math.ceil(count / perPage),
+                moment : moment
+            });
+          });
         });
       });
     });
@@ -41,21 +46,26 @@ router.get('/tasks/:page', async (req, res, next) => {
   var moment = require('moment');
   let perPage = 20;
   let page = req.params.page || 1;
-  const users = await User.find();
-  await Task
-    .find({})
-    .sort({ prioridad: -1 })
-    .skip((perPage * page) - perPage) 
-    .limit(perPage)
-    .exec((err, tasks) => {
+  Task.find({})
+  .sort({ prioridad: -1 })
+  .skip((perPage * page) - perPage)
+  .limit(perPage)
+  .exec((err, tasks) => {
       Task.count((err, count) => {
         if (err) return next(err);
-        res.render('tasks/tasks', {
-          tasks,
-          users,
-          current: page,
-          pages: Math.ceil(count / perPage),
-          moment : moment
+        User.find({})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec((err, users) => {
+          User.count((err, count) => {
+            res.render('tasks/tasks', {
+                tasks,
+                users,
+                current: page,
+                pages: Math.ceil(count / perPage),
+                moment : moment
+            });
+          });
         });
       });
     });
