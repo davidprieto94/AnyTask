@@ -28,6 +28,7 @@
                     <th class="align-middle text-center">Tarea</th>
                     <th class="align-middle text-center">Descripción Tarea</th>
                     <th class="align-middle text-center">Plazo Tarea</th>
+                    <th class="align-middle text-center">Estado Plazo</th>
                     <th class="align-middle text-center">Prioridad</th>
                     <th class="align-middle text-center">Operaciones</th>
                 </tr>
@@ -41,7 +42,52 @@
                     <td class="align-middle text-center"><strong><%= users[i].email %></strong></td>
                     <td class="align-middle text-center"><strong><%= tasks[i].title %></strong></td>
                     <td class="align-middle text-center"><%= tasks[i].description %></td>
-                    <td class="align-middle text-center"><%= moment(moment(tasks[i].date).add(1,'day')).format('DD-MM-YYYY'); %> </td>
+                    <td class="align-middle text-center"><%= moment(moment(tasks[i].date).add(1,'day')).format('DD-MM-YYYY') %> </td>
+                    <td class="align-middle text-center">
+                      <% if ((moment(moment(tasks[i].date).add(1,'day')).format('DD-MM-YYYY')) == (moment().format('DD-MM-YYYY'))){ %> 
+                        <style>
+                            h1.circuloamarillo {
+                                  width: 40px;
+                                  height: 40px;
+                                  -moz-border-radius: 50%;
+                                  -webkit-border-radius: 50%;
+                                  border-radius: 50%;
+                                  background: #ffff00;
+                                  display : block;
+                                  margin : auto;
+                              }
+                          </style>
+                          <h1 class="circuloamarillo"></h1>
+                      <% } else if ((moment(moment(tasks[i].date).add(1,'day')).format('DD-MM-YYYY')) > (moment().format('DD-MM-YYYY'))){ %>
+                        <style>
+                            h1.circuloverde {
+                                  width: 40px;
+                                  height: 40px;
+                                  -moz-border-radius: 50%;
+                                  -webkit-border-radius: 50%;
+                                  border-radius: 50%;
+                                  background: #008000;
+                                  display : block;
+                                  margin : auto;
+                              }
+                          </style>
+                          <h1 class="circuloverde"></h1>
+                      <% } else { %>  
+                        <style>
+                        h1.circulorojo {
+                              width: 40px;
+                              height: 40px;
+                              -moz-border-radius: 50%;
+                              -webkit-border-radius: 50%;
+                              border-radius: 50%;
+                              background: #ff0000;
+                              display : block;
+                              margin : auto;
+                          }
+                      </style>
+                      <h1 class="circulorojo"></h1>
+                      <% } %>
+                   </td>
                     <td class="align-middle text-center"><% if (tasks[i].prioridad == 3){ %> Alta 
                         <% } else if (tasks[i].prioridad == 2){ %> Media
                         <% } else { %> Baja

@@ -18,7 +18,7 @@ router.post('/filter', async (req, res, next) => {
   let perPage = 20;
   let page = req.params.page || 1;
   Task.find({title: {$regex : task.title}})
-  .sort({ prioridad: -1 })
+  .sort({ prioridad: -1 , date : 1})
   .skip((perPage * page) - perPage)
   .limit(perPage)
   .exec((err, tasks) => {
@@ -47,7 +47,7 @@ router.get('/tasks/:page', async (req, res, next) => {
   let perPage = 20;
   let page = req.params.page || 1;
   Task.find({})
-  .sort({ prioridad: -1 })
+  .sort({ prioridad: -1 , date : 1})
   .skip((perPage * page) - perPage)
   .limit(perPage)
   .exec((err, tasks) => {
